@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>HeightsTT Club</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0D1B2A;--lime:#C6F135;--mid:#1E3A5F;
+  --bg:#f5f5f3;--surface:#ffffff;--surface-1:#f0f0ee;
+  --text:#1a1a18;--sub:#5f5f5b;--muted:#9a9a96;
+  --border:#e0e0dc;--border-strong:#c8c8c4;
+  --success-bg:#1a3a1a;--success-text:#7ee37e;
+  --danger-bg:#fce8e8;--danger-text:#b91c1c;--danger-border:#fca5a5;
+  --warn-bg:#fef3c7;--warn-text:#92400e;--warn-border:#fde68a;
+  --info-bg:#eff6ff;--info-text:#1d4ed8;--info-border:#bfdbfe;
+  --radius:8px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0f1117;--surface:#1c1f26;--surface-1:#252830;
+  --text:#e8e8e4;--sub:#9a9a96;--muted:#5f5f5b;
+  --border:#2e3038;--border-strong:#3e4048;
+  --danger-bg:#2a1010;--danger-text:#f87171;--danger-border:#7f1d1d;
+  --warn-bg:#2a1f00;--warn-text:#fbbf24;--warn-border:#78350f;
+  --info-bg:#0c1a33;--info-text:#93c5fd;--info-border:#1e3a5f;
+}}
+
+/* ── BASE ── */
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+#app{max-width:720px;margin:0 auto;padding:0 0 60px}
+@media(min-width:740px){#app{margin:20px auto}}
+
+/* ── TOP BAR ── */
+.top-bar{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(min-width:740px){.top-bar{border-radius:12px 12px 0 0}}
+.logo{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:0.02em}
+.logo-sub{font-size:10px;color:rgba(255,255,255,0.45);display:block;margin-top:1px;letter-spacing:0.04em}
+.top-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;transition:background 0.3s}
+.sync-dot.syncing{background:#facc15;animation:blink 1s infinite}
+.sync-dot.err{background:#f87171}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.sync-label{font-size:10px;color:rgba(255,255,255,0.5)}
+.admin-badge{background:#C6F135;color:#0D1B2A;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+.pill-btn{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.pill-btn:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+.session-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:none;letter-spacing:0.04em;font-family:inherit}
+.session-badge.on{background:var(--lime);color:#0D1B2A}
+.session-badge.off{background:#334;color:#888}
+.session-badge.soon{background:#f59e0b;color:#fff}
+.sched-bar{background:var(--navy);padding:3px 16px 8px;display:flex;align-items:center;gap:5px}
+.sched-dot{width:5px;height:5px;border-radius:50%;background:#facc15}
+.sched-info{font-size:10px;color:rgba(255,255,255,0.4)}
+
+/* ── NAV ── */
+.nav{display:flex;gap:1px;padding:8px 12px 0;background:var(--navy);border-bottom:2px solid var(--lime);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{background:transparent;border:none;color:#888;padding:7px 12px;font-size:12px;cursor:pointer;border-radius:6px 6px 0 0;font-family:inherit;white-space:nowrap;transition:all 0.15s}
+.nav-btn.active{background:var(--lime);color:#0D1B2A;font-weight:600}
+.nav-btn:hover:not(.active){color:#fff;background:rgba(255,255,255,0.08)}
+
+/* ── CARDS / FORMS ── */
+.panel{padding:14px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.card-title{font-size:10px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;font-weight:700}
+label{display:block;font-size:13px;color:var(--sub);margin-bottom:3px}
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],input[type=password],select,textarea{
+  width:100%;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius);
+  font-size:14px;font-family:inherit;background:var(--surface-1);color:var(--text);margin-bottom:8px;
+  -webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#378add;box-shadow:0 0 0 3px rgba(55,138,221,0.15)}
+textarea{resize:vertical;min-height:60px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(--radius);font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;border:1px solid var(--border-strong);background:transparent;color:var(--text);transition:all 0.15s}
+.btn:hover{background:var(--surface-1)}
+.btn:active{transform:scale(0.97)}
+.btn.primary{background:var(--navy);color:var(--lime);border-color:var(--navy)}
+.btn.primary:hover{background:var(--mid)}
+.btn.success{background:var(--success-bg);color:var(--success-text);border-color:#2a5a2a}
+.btn.danger{background:var(--danger-bg);color:var(--danger-text);border-color:var(--danger-border)}
+.btn.warn{background:var(--warn-bg);color:var(--warn-text);border-color:var(--warn-border)}
+.btn.sm{padding:4px 9px;font-size:11px}
+.btn.xs{padding:2px 7px;font-size:10px}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none}
+.row2{display:flex;gap:8px}.row2>*{flex:1}.row2 input,.row2 select{margin-bottom:0}
+
+/* ── MEMBERS ── */
+.member-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.member-row:last-child{border-bottom:none}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.member-info{flex:1;min-width:0}
+.member-name{font-size:14px;font-weight:500}
+.member-meta{font-size:11px;color:var(--sub);margin-top:1px}
+.pip{width:8px;height:8px;border-radius:50%;background:var(--lime);display:inline-block;margin-right:2px}
+.status-pill{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;display:inline-block;white-space:nowrap}
+.sp-valid{background:var(--success-bg);color:var(--success-text)}
+.sp-expired{background:var(--danger-bg);color:var(--danger-text)}
+.sp-none{background:var(--surface-1);color:var(--muted);border:0.5px solid var(--border-strong)}
+.sp-warn{background:var(--warn-bg);color:var(--warn-text)}
+.sp-info{background:var(--info-bg);color:var(--info-text)}
+.checked-in-badge{font-size:9px;padding:1px 5px;border-radius:20px;background:var(--lime);color:#0D1B2A;font-weight:700;margin-left:4px;vertical-align:middle}
+.minor-badge{font-size:9px;padding:1px 5px;border-radius:20px;background:var(--warn-bg);color:var(--warn-text);font-weight:700;margin-left:4px;vertical-align:middle}
+
+/* ── STATS ── */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px;text-align:center}
+.stat-val{font-size:22px;font-weight:700}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* ── QUEUES ── */
+.queue-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:420px){.queue-grid{grid-template-columns:1fr}}
+.queue-card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:10px 12px}
+.queue-card.closed{opacity:0.5}
+.queue-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:4px;flex-wrap:wrap}
+.queue-name{font-size:12px;font-weight:700}
+.queue-meta{font-size:10px;color:var(--sub)}
+.queue-entry{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--border);font-size:12px}
+.queue-entry:last-child{border-bottom:none}
+.queue-pos{width:18px;height:18px;border-radius:50%;background:var(--navy);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.queue-pos.me{background:var(--lime);color:var(--navy)}
+.join-btn{text-align:left;width:100%;border-radius:var(--radius);padding:9px 12px;margin-bottom:5px}
+.join-btn span{display:block;font-size:10px;color:var(--sub);margin-top:1px;font-weight:400}
+
+/* ── MESSAGES ── */
+.msg{padding:9px 12px;border-radius:var(--radius);font-size:12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.msg.ok{background:var(--success-bg);color:var(--success-text)}
+.msg.err{background:var(--danger-bg);color:var(--danger-text);border:1px solid var(--danger-border)}
+.msg.warn{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-border)}
+.msg.info{background:var(--info-bg);color:var(--info-text);border:1px solid var(--info-border)}
+
+/* ── MISC ── */
+.waiver-box{border:1px solid var(--border);border-radius:var(--radius);padding:10px;font-size:11px;color:var(--sub);max-height:120px;overflow-y:auto;margin-bottom:8px;line-height:1.7;background:var(--surface-1)}
+.waiver-check{display:flex;align-items:flex-start;gap:8px;font-size:12px;margin-bottom:10px;cursor:pointer;line-height:1.4}
+.waiver-check input{width:auto;margin:2px 0 0;flex-shrink:0}
+.minor-section{background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px}
+.minor-section-title{font-size:11px;font-weight:700;color:var(--warn-text);margin-bottom:6px}
+.ci-preview{padding:7px 11px;background:var(--surface-1);border-radius:var(--radius);margin-bottom:8px;font-size:12px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.credits-pips{display:inline-flex;flex-wrap:wrap;gap:2px;align-items:center}
+.empty-state{text-align:center;padding:24px 16px;color:var(--muted);font-size:12px}
+.empty-state i{font-size:28px;display:block;margin-bottom:7px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.divider{height:0.5px;background:var(--border);margin:12px 0}
+.tx-row{display:flex;align-items:flex-start;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px;gap:8px}
+.tx-row:last-child{border-bottom:none}
+.tx-credit{color:var(--success-text);font-weight:700}
+.tx-debit{color:var(--danger-text);font-weight:700}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:6px 8px;background:var(--surface-1);color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}
+td{padding:6px 8px;border-bottom:0.5px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+
+/* ── MODALS ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;z-index:400;padding:16px}
+.modal{background:var(--surface);border-radius:16px;padding:22px 20px;width:100%;max-width:380px;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--sub);margin-bottom:14px}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+
+/* ── LOADING ── */
+.loading-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:500}
+.loading-box{background:var(--surface);border-radius:12px;padding:24px 32px;text-align:center;font-size:13px}
+.loading-box i{font-size:28px;color:var(--lime);display:block;margin-bottom:10px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══════════════════════════════════
+   KIOSK MODE
+══════════════════════════════════ */
+#kiosk-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:var(--navy);
+  display:none;flex-direction:column;
+  overflow:hidden;
+}
+#kiosk-overlay.active{display:flex}
+
+/* attract screen */
+.kiosk-attract{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;padding:32px;cursor:pointer;user-select:none;
+}
+.kiosk-attract-logo{opacity:0.85}
+.kiosk-attract h1{color:#fff;font-size:clamp(22px,4vw,36px);font-weight:700;text-align:center;line-height:1.2}
+.kiosk-attract p{color:rgba(255,255,255,0.5);font-size:16px;text-align:center}
+.kiosk-attract .tap-hint{color:var(--lime);font-size:18px;font-weight:600;animation:kpulse 2s ease-in-out infinite}
+@keyframes kpulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* kiosk member picker */
+.kiosk-picker{flex:1;display:none;flex-direction:column;overflow:hidden}
+.kiosk-picker.visible{display:flex}
+.kiosk-header{background:#0a1520;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.kiosk-header-title{color:#fff;font-size:15px;font-weight:600}
+.kiosk-idle-bar{height:3px;background:rgba(255,255,255,0.1);position:relative;flex-shrink:0}
+.kiosk-idle-progress{height:100%;background:var(--lime);transition:width 1s linear;width:100%}
+.kiosk-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+
+/* kiosk member grid */
+.kiosk-member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.kiosk-member-tile{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.15s;color:#fff}
+.kiosk-member-tile:hover,.kiosk-member-tile:active{background:rgba(198,241,53,0.12);border-color:var(--lime)}
+.kiosk-member-tile .k-avatar{width:46px;height:46px;border-radius:50%;background:var(--mid);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0 auto 8px}
+.kiosk-member-tile .k-name{font-size:12px;font-weight:500;line-height:1.3}
+.kiosk-member-tile .k-credits{font-size:10px;color:rgba(255,255,255,0.5);margin-top:3px}
+
+/* kiosk dashboard (after member selected) */
+.kiosk-dashboard{display:none;flex-direction:column;overflow:hidden;flex:1}
+.kiosk-dashboard.visible{display:flex}
+.kiosk-member-bar{background:#0a1520;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.kiosk-member-bar .k-avatar{width:40px;height:40px;border-radius:50%;background:var(--mid);color:var(--lime);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.kiosk-member-bar .k-name{color:#fff;font-size:15px;font-weight:600}
+.kiosk-member-bar .k-detail{color:rgba(255,255,255,0.5);font-size:11px;margin-top:1px}
+.kiosk-member-bar .k-status{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* kiosk queue panels */
+.kiosk-queue-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+@media(max-width:500px){.kiosk-queue-grid{grid-template-columns:1fr}}
+.kiosk-q-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden}
+.kiosk-q-card.closed{opacity:0.4}
+.kiosk-q-card.me-in{border-color:var(--lime);background:rgba(198,241,53,0.05)}
+.kiosk-q-head{background:rgba(255,255,255,0.06);padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.kiosk-q-name{color:#fff;font-size:13px;font-weight:700}
+.kiosk-q-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700}
+.kq-open{background:var(--success-bg);color:var(--success-text)}
+.kq-closed{background:#334;color:#888}
+.kq-me{background:var(--lime);color:var(--navy)}
+.kiosk-q-list{padding:10px 14px}
+.kiosk-q-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.07);font-size:12px;color:rgba(255,255,255,0.75)}
+.kiosk-q-row:last-child{border-bottom:none}
+.kiosk-q-row.me{color:var(--lime);font-weight:700}
+.kiosk-q-num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.kiosk-q-num.me{background:var(--lime);color:var(--navy)}
+.kiosk-q-empty{font-size:11px;color:rgba(255,255,255,0.3);padding:6px 0;text-align:center}
+.kiosk-q-actions{padding:0 14px 12px;display:flex;gap:8px;flex-wrap:wrap}
+.k-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(--radius);font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;border:none;transition:all 0.15s}
+.k-btn:active{transform:scale(0.96)}
+.k-btn.join{background:var(--lime);color:var(--navy)}
+.k-btn.leave{background:rgba(252,100,100,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3)}
+.k-btn.disabled{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);cursor:not-allowed;transform:none}
+.kiosk-msg{margin:0 14px 10px;padding:9px 12px;border-radius:var(--radius);font-size:12px;display:flex;align-items:center;gap:7px}
+.kiosk-msg.ok{background:var(--success-bg);color:var(--success-text)}
+.kiosk-msg.err{background:var(--danger-bg);color:var(--danger-text)}
+.kiosk-no-session{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;text-align:center;color:rgba(255,255,255,0.5)}
+.kiosk-no-session i{font-size:48px;color:rgba(255,255,255,0.15)}
+.kiosk-no-session h2{color:#fff;font-size:20px}
+.kiosk-footer{padding:10px 16px;background:#0a1520;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-top:1px solid rgba(255,255,255,0.06)}
+.kiosk-footer-info{font-size:10px;color:rgba(255,255,255,0.35)}
+.kiosk-exit-hint{font-size:10px;color:rgba(255,255,255,0.2);cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- ══ KIOSK OVERLAY ══════════════════════════════════════ -->
+<div id="kiosk-overlay">
+
+  <!-- Attract screen -->
+  <div id="kiosk-attract" class="kiosk-attract" onclick="kioskActivate()">
+    <div class="kiosk-attract-logo">
+      <svg width="72" height="72" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="14" cy="14" rx="11" ry="11" fill="#C6F135"/>
+        <ellipse cx="14" cy="14" rx="7" ry="7" fill="#0D1B2A"/>
+        <rect x="23" y="20" width="4" height="10" rx="2" transform="rotate(-35 23 20)" fill="#C6F135"/>
+        <circle cx="14" cy="14" r="2.5" fill="#C6F135"/>
+      </svg>
+    </div>
+    <div>
+      <h1>HeightsTT Club</h1>
+      <p style="margin-top:4px;font-size:13px">Heights Table Tennis Club of Greater Cleveland</p>
+    </div>
+    <div id="kiosk-session-status" style="font-size:14px;color:rgba(255,255,255,0.6)">Checking session…</div>
+    <div class="tap-hint">Tap anywhere to sign in</div>
+    <div id="kiosk-attract-queues" style="width:100%;max-width:420px"></div>
+  </div>
+
+  <!-- Member picker -->
+  <div id="kiosk-picker" class="kiosk-picker">
+    <div class="kiosk-header">
+      <span class="kiosk-header-title"><i class="ti ti-user-circle"></i> Who are you?</span>
+      <button class="k-btn" style="background:rgba(255,255,255,0.08);color:#fff;font-size:11px" onclick="kioskBack()">← Back</button>
+    </div>
+    <div class="kiosk-idle-bar"><div class="kiosk-idle-progress" id="kiosk-idle-bar"></div></div>
+    <div class="kiosk-body">
+      <div style="color:rgba(255,255,255,0.5);font-size:13px;text-align:center">Select your name to manage your queues</div>
+      <div class="kiosk-member-grid" id="kiosk-member-grid"></div>
+    </div>
+    <div class="kiosk-footer">
+      <span class="kiosk-footer-info" id="kiosk-clock"></span>
+      <span class="kiosk-exit-hint" onclick="promptKioskExit()">Exit kiosk ⚙</span>
+    </div>
+  </div>
+
+  <!-- Member dashboard -->
+  <div id="kiosk-dashboard" class="kiosk-dashboard">
+    <div class="kiosk-header">
+      <span class="kiosk-header-title" id="kd-title">Queue Manager</span>
+      <button class="k-btn" style="background:rgba(255,255,255,0.08);color:#fff;font-size:11px" onclick="kioskBack()">← Switch</button>
+    </div>
+    <div class="kiosk-idle-bar"><div class="kiosk-idle-progress" id="kiosk-idle-bar2"></div></div>
+    <div id="kiosk-member-bar" class="kiosk-member-bar">
+      <div class="k-avatar" id="kd-avatar"></div>
+      <div><div class="k-name" id="kd-name"></div><div class="k-detail" id="kd-detail"></div></div>
+      <div class="k-status" id="kd-status"></div>
+    </div>
+    <div style="flex:1;overflow-y:auto">
+      <div id="kiosk-no-session" class="kiosk-no-session" style="display:none">
+        <i class="ti ti-moon"></i>
+        <h2>No Active Session</h2>
+        <p>Sessions run Mon &amp; Wed, 6:15–9:15 PM ET</p>
+      </div>
+      <div id="kiosk-queue-area">
+        <div id="kiosk-global-msg"></div>
+        <div class="kiosk-queue-grid" id="kiosk-queue-grid"></div>
+      </div>
+    </div>
+    <div class="kiosk-footer">
+      <span class="kiosk-footer-info" id="kiosk-clock2"></span>
+      <span class="kiosk-exit-hint" onclick="promptKioskExit()">Exit kiosk ⚙</span>
+    </div>
+  </div>
+
+</div>
+<!-- ══ END KIOSK ══════════════════════════════════════════ -->
+
+<!-- ADMIN MODAL -->
+<div id="admin-modal" class="modal-bg" style="display:none">
+  <div class="modal">
+    <div class="modal-title"><i class="ti ti-shield-lock"></i> Admin sign-in</div>
+    <div class="modal-sub">Enter the admin PIN.</div>
+    <div id="admin-pin-msg"></div>
+    <label>PIN</label>
+    <input type="password" id="admin-pin-input" placeholder="••••" maxlength="8" onkeydown="if(event.key==='Enter')submitAdminPin()">
+    <div class="modal-btns">
+      <button class="btn" onclick="closeAdminModal()">Cancel</button>
+      <button class="btn primary" onclick="submitAdminPin()">Sign in</button>
+    </div>
+  </div>
+</div>
+
+<!-- KIOSK EXIT MODAL -->
+<div id="kiosk-exit-modal" class="modal-bg" style="display:none;z-index:700">
+  <div class="modal">
+    <div class="modal-title">Exit kiosk mode</div>
+    <div class="modal-sub">Enter the admin PIN to exit kiosk mode.</div>
+    <div id="kiosk-exit-msg"></div>
+    <label>PIN</label>
+    <input type="password" id="kiosk-exit-pin" placeholder="••••" maxlength="8" onkeydown="if(event.key==='Enter')submitKioskExit()">
+    <div class="modal-btns">
+      <button class="btn" onclick="closeKioskExitModal()">Cancel</button>
+      <button class="btn primary" onclick="submitKioskExit()">Exit kiosk</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEMBER LOGIN MODAL -->
+<div id="member-modal" class="modal-bg" style="display:none">
+  <div class="modal">
+    <div class="modal-title"><i class="ti ti-user-circle"></i> Member sign-in</div>
+    <div class="modal-sub">Select your name to view your account.</div>
+    <div id="member-login-msg"></div>
+    <label>Your name</label>
+    <select id="member-login-select"><option value="">— Select —</option></select>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeMemberModal()">Cancel</button>
+      <button class="btn primary" onclick="submitMemberLogin()">View my account</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading-overlay" class="loading-overlay">
+  <div class="loading-box"><i class="ti ti-refresh"></i>Loading club data…</div>
+</div>
+
+<!-- ══ MAIN APP ══════════════════════════════════════════ -->
+<div id="app" style="display:none">
+
+<div class="top-bar">
+  <div class="logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="14" cy="14" rx="11" ry="11" fill="#C6F135"/>
+      <ellipse cx="14" cy="14" rx="7" ry="7" fill="#0D1B2A"/>
+      <rect x="23" y="20" width="4" height="10" rx="2" transform="rotate(-35 23 20)" fill="#C6F135"/>
+      <circle cx="14" cy="14" r="2.5" fill="#C6F135"/>
+    </svg>
+    <span>HeightsTT Club<span class="logo-sub">Heights Table Tennis Club of Greater Cleveland</span></span>
+  </div>
+  <div class="top-right">
+    <span class="sync-dot" id="sync-dot"></span>
+    <span class="sync-label" id="sync-label">Synced</span>
+    <span id="admin-badge" class="admin-badge" style="display:none">⚡ Admin</span>
+    <button id="member-badge" class="pill-btn" style="display:none" onclick="logoutMember()">Sign out</button>
+    <button id="admin-toggle-btn" class="pill-btn" onclick="promptAdmin()">Admin</button>
+    <button id="member-toggle-btn" class="pill-btn" onclick="promptMember()">My Account</button>
+    <button id="kiosk-mode-btn" class="pill-btn" onclick="enterKioskMode()" style="display:none">Kiosk</button>
+    <span class="session-badge off" id="session-badge">● SESSION OFF</span>
+    <button id="session-toggle-btn" class="pill-btn" style="display:none" onclick="handleSessionToggle()">Toggle</button>
+  </div>
+</div>
+<div class="sched-bar">
+  <span class="sched-dot"></span>
+  <span class="sched-info">Auto-session: Mon &amp; Wed 6:15–9:15 PM ET</span>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab('members',this)">Members</button>
+  <button class="nav-btn" onclick="showTab('signup',this)">Sign up</button>
+  <button class="nav-btn" onclick="showTab('checkin',this)">Check-in</button>
+  <button class="nav-btn" onclick="showTab('queues',this)">Queues</button>
+  <button class="nav-btn" id="nav-credits" style="display:none" onclick="showTab('credits',this)">Credits</button>
+  <button class="nav-btn" id="nav-reports" style="display:none" onclick="showTab('reports',this)">Reports</button>
+</div>
+
+<div class="panel">
+
+<!-- MEMBERS -->
+<div id="tab-members" class="tab-content active">
+  <div class="stat-row" id="stats-row"></div>
+  <div id="members-list"></div>
+</div>
+
+<!-- SIGNUP -->
+<div id="tab-signup" class="tab-content">
+  <div class="card">
+    <div class="card-title">New member registration</div>
+    <div id="signup-msg"></div>
+    <label>Full name *</label>
+    <input type="text" id="su-name" placeholder="Jane Smith" autocomplete="name">
+    <div class="row2" style="margin-bottom:0">
+      <div><label>Date of birth *</label><input type="date" id="su-dob" onchange="checkMinor()"></div>
+      <div><label>Email</label><input type="email" id="su-email" placeholder="jane@example.com"></div>
+    </div>
+    <label>Phone</label>
+    <input type="tel" id="su-phone" placeholder="+1 216 000 0000">
+    <div id="minor-section" style="display:none" class="minor-section">
+      <div class="minor-section-title">⚠️ Minor (under 18) — Parent / Guardian required</div>
+      <label>Parent / Guardian full name *</label>
+      <input type="text" id="su-guardian-name" placeholder="Parent or guardian name">
+      <label>Parent / Guardian phone *</label>
+      <input type="tel" id="su-guardian-phone" placeholder="+1 216 000 0000">
+      <label>Parent / Guardian email</label>
+      <input type="email" id="su-guardian-email" placeholder="parent@example.com">
+      <label>Parent / Guardian signature (type full name) *</label>
+      <input type="text" id="su-guardian-sig" placeholder="Type full name as signature">
+    </div>
+    <div class="divider"></div>
+    <div class="card-title">Liability waiver</div>
+    <div class="waiver-box">
+      <strong>Heights Table Tennis Club of Greater Cleveland — Liability Waiver</strong><br><br>
+      I, the undersigned member (or parent/guardian on behalf of a minor), acknowledge and agree that participation in table tennis activities at Heights Table Tennis Club of Greater Cleveland ("the Club") involves inherent risks of physical injury. I voluntarily assume all risks associated with participation, including but not limited to falls, collisions, equipment-related injuries, and overexertion.<br><br>
+      I hereby release, waive, discharge, and covenant not to sue Heights Table Tennis Club of Greater Cleveland, its officers, volunteers, and agents from any and all liability, claims, demands, actions, or causes of action arising out of or related to any loss, damage, or injury that may be sustained by me (or the minor in my care) while participating in Club activities or on Club premises.<br><br>
+      I certify that the participant is in adequate physical condition to participate in table tennis activities, and I agree to abide by all Club rules and regulations. This waiver is valid for one (1) year from the date of signing.
+    </div>
+    <label class="waiver-check"><input type="checkbox" id="su-waiver"> I have read and agree to the liability waiver above</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn primary" onclick="signupMember()"><i class="ti ti-user-plus"></i> Register member</button>
+      <button class="btn" onclick="cancelSignup()"><i class="ti ti-x"></i> Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECK-IN -->
+<div id="tab-checkin" class="tab-content">
+  <div class="card">
+    <div class="card-title">Session check-in</div>
+    <div id="checkin-msg"></div>
+    <div id="session-warning" style="display:none" class="msg err"><i class="ti ti-alert-circle"></i><span id="session-warning-text"></span></div>
+    <label>Select member</label>
+    <select id="ci-member" onchange="updateCheckinPreview()"><option value="">— Choose a member —</option></select>
+    <div id="ci-preview" class="ci-preview" style="display:none"></div>
+    <button class="btn primary" id="ci-btn" onclick="checkIn()"><i class="ti ti-login"></i> Check in &amp; deduct 1 credit</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Currently checked in</div>
+    <div id="checked-in-list"></div>
+  </div>
+</div>
+
+<!-- QUEUES -->
+<div id="tab-queues" class="tab-content">
+  <div id="queue-section-msg"></div>
+  <div class="card">
+    <div class="card-title">Join a queue</div>
+    <div id="queue-join-msg"></div>
+    <label>Member</label>
+    <select id="q-member"><option value="">— Choose a member —</option></select>
+    <div id="queue-join-btns"></div>
+  </div>
+  <div class="queue-grid" id="queues-display" style="margin-top:8px"></div>
+</div>
+
+<!-- CREDITS (admin only) -->
+<div id="tab-credits" class="tab-content">
+  <div id="credits-gate" class="card" style="display:none">
+    <div class="empty-state"><i class="ti ti-lock"></i>Credits are managed by admin only.<br>
+    <button class="btn primary" onclick="promptAdmin()" style="margin-top:12px"><i class="ti ti-shield-lock"></i> Admin sign-in</button></div>
+  </div>
+  <div id="credits-content" style="display:none">
+    <div class="card">
+      <div class="card-title">Add payment credits</div>
+      <div id="credits-pay-msg"></div>
+      <label>Member</label><select id="cr-member" onchange="updateCreditPreview()"><option value="">— Choose —</option></select>
+      <div id="cr-preview" style="font-size:12px;color:var(--sub);margin-bottom:8px;min-height:16px"></div>
+      <div class="row2">
+        <div><label>Amount paid ($)</label><input type="number" id="cr-amount" min="6" step="1" placeholder="$" oninput="calcCredits()"></div>
+        <div><label>Credits</label><input type="text" id="cr-calc" readonly placeholder="= 0" style="background:var(--surface-1)"></div>
+      </div>
+      <label>Payment method</label>
+      <select id="cr-method"><option>Zelle</option><option>Venmo</option><option>PayPal</option><option>Cash/Other</option></select>
+      <label>Comment (optional)</label>
+      <textarea id="cr-comment" placeholder="Reference, note…"></textarea>
+      <button class="btn primary" onclick="addPaymentCredits()"><i class="ti ti-plus"></i> Add payment credits</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Free / adjustment credits</div>
+      <div id="credits-adj-msg"></div>
+      <label>Member</label><select id="adj-member" onchange="updateAdjPreview()"><option value="">— Choose —</option></select>
+      <div id="adj-preview" style="font-size:12px;color:var(--sub);margin-bottom:8px;min-height:16px"></div>
+      <label>Credits (negative to deduct)</label>
+      <input type="number" id="adj-amount" placeholder="e.g. 2 or -1" step="1">
+      <label>Reason *</label>
+      <select id="adj-reason"><option>Promotion</option><option>Goodwill</option><option>Error correction</option><option>Refund</option><option>Other</option></select>
+      <label>Comment</label>
+      <textarea id="adj-comment" placeholder="Optional details…"></textarea>
+      <button class="btn primary" onclick="addAdjustmentCredits()"><i class="ti ti-adjustments"></i> Apply adjustment</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Recent transactions</div>
+      <div id="tx-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MY ACCOUNT -->
+<div id="tab-myaccount" class="tab-content">
+  <div id="my-account-content"></div>
+</div>
+
+<!-- REPORTS (admin only) -->
+<div id="tab-reports" class="tab-content">
+  <div id="reports-gate" class="card" style="display:none">
+    <div class="empty-state"><i class="ti ti-lock"></i>Reports are admin only.<br>
+    <button class="btn primary" onclick="promptAdmin()" style="margin-top:12px"><i class="ti ti-shield-lock"></i> Admin sign-in</button></div>
+  </div>
+  <div id="reports-content" style="display:none">
+    <div class="card">
+      <div class="card-title">Generate report</div>
+      <div class="row2">
+        <div><label>From</label><input type="date" id="rpt-from"></div>
+        <div><label>To</label><input type="date" id="rpt-to"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+        <button class="btn primary" onclick="generateReport('credits')"><i class="ti ti-receipt"></i> Credit transactions</button>
+        <button class="btn primary" onclick="generateReport('membership')"><i class="ti ti-users"></i> Membership detail</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Saved reports</div>
+      <div id="saved-reports-list"></div>
+    </div>
+    <div id="report-output"></div>
+  </div>
+</div>
+
+</div><!-- /panel -->
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════════════════
+var ADMIN_PIN       = '1234';
+var SESSION_DAYS    = [1,3];
+var SESSION_START   = {h:18,m:15};
+var SESSION_END     = {h:21,m:15};
+var COACHING_CLOSE  = {h:20,m:0};
+var COACHING_OPEN_H = 9;
+var EARLY_CHECKIN   = 30;
+var KIOSK_IDLE_SECS = 45;
+
+var KEYS = {members:'htt_members',session:'htt_session',txlog:'htt_txlog',reports:'htt_reports'};
+var Q_KEYS   = ['coaching','open','challenge','advanced'];
+var Q_LABELS = ['Coaching','Open','Challenge','Advanced'];
+
+// ══════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════
+var state = {
+  members:[],
+  session:{active:false,manualOverride:false,checkedIn:[],
+    queues:{coaching:{open:true,members:[]},open:{open:true,members:[]},
+            challenge:{open:false,members:[]},advanced:{open:false,members:[]}}},
+  txlog:[], reports:[]
+};
+
+var isAdmin=false, currentMember=null;
+var syncTimer=null, pollTimer=null, schedTimer=null;
+var lastHash='';
+
+// kiosk state
+var kioskMode=false, kioskMember=null;
+var kioskIdleTimer=null, kioskIdleRemaining=KIOSK_IDLE_SECS;
+var kioskRefreshTimer=null, kioskClockTimer=null;
+
+// ══════════════════════════════════════════════════════════
+//  STORAGE
+// ══════════════════════════════════════════════════════════
+function setSyncStatus(s,l){
+  var dot=document.getElementById('sync-dot'),lb=document.getElementById('sync-label');
+  dot.className='sync-dot'+(s==='syncing'?' syncing':s==='err'?' err':'');
+  lb.textContent=l;
+}
+async function loadFromCloud(){
+  try{
+    var rs=await Promise.all([KEYS.members,KEYS.session,KEYS.txlog,KEYS.reports].map(k=>window.storage.get(k,true).catch(()=>null)));
+    if(rs[0]) state.members=JSON.parse(rs[0].value);
+    if(rs[1]) state.session=JSON.parse(rs[1].value);
+    if(rs[2]) state.txlog=JSON.parse(rs[2].value);
+    if(rs[3]) state.reports=JSON.parse(rs[3].value);
+    lastHash=stateHash(); return true;
+  }catch(e){console.error(e);return false;}
+}
+async function saveToCloud(){
+  setSyncStatus('syncing','Saving…');
+  try{
+    await Promise.all([
+      window.storage.set(KEYS.members,JSON.stringify(state.members),true),
+      window.storage.set(KEYS.session,JSON.stringify(state.session),true),
+      window.storage.set(KEYS.txlog,JSON.stringify(state.txlog),true),
+      window.storage.set(KEYS.reports,JSON.stringify(state.reports),true)
+    ]);
+    lastHash=stateHash(); setSyncStatus('ok','Synced');
+  }catch(e){setSyncStatus('err','Sync error');}
+}
+function save(){clearTimeout(syncTimer);setSyncStatus('syncing','Saving…');syncTimer=setTimeout(saveToCloud,700);}
+function stateHash(){
+  return state.members.length+'|'+state.session.checkedIn.length+'|'+
+    Q_KEYS.map(k=>state.session.queues[k].members.length).join(',')+'|'+state.txlog.length;
+}
+async function pollChanges(){
+  try{
+    var rs=await Promise.all([KEYS.members,KEYS.session,KEYS.txlog,KEYS.reports].map(k=>window.storage.get(k,true).catch(()=>null)));
+    var nm=rs[0]?JSON.parse(rs[0].value):state.members;
+    var ns=rs[1]?JSON.parse(rs[1].value):state.session;
+    var nt=rs[2]?JSON.parse(rs[2].value):state.txlog;
+    var nr=rs[3]?JSON.parse(rs[3].value):state.reports;
+    var h=nm.length+'|'+ns.checkedIn.length+'|'+Q_KEYS.map(k=>ns.queues[k].members.length).join(',')+'|'+nt.length;
+    if(h!==lastHash){
+      state.members=nm;state.session=ns;state.txlog=nt;state.reports=nr;
+      lastHash=h;
+      if(kioskMode) kioskRenderDashboard();
+      else refreshCurrentTab();
+      setSyncStatus('ok','Updated');
+    }
+  }catch(e){}
+  pollTimer=setTimeout(pollChanges,8000);
+}
+
+// ══════════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════════
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function initials(n){return (n||'').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?';}
+function fmt(iso){return iso?new Date(iso).toLocaleDateString():'—';}
+function fmtDT(iso){return iso?new Date(iso).toLocaleString():'—';}
+function fmtMoney(n){return '$'+parseFloat(n||0).toFixed(2);}
+function ageFromDob(dob){
+  if(!dob)return null;
+  var d=new Date(dob),now=new Date(),age=now.getFullYear()-d.getFullYear();
+  var m=now.getMonth()-d.getMonth();
+  if(m<0||(m===0&&now.getDate()<d.getDate()))age--;
+  return age;
+}
+function isMinor(m){return m.dob&&ageFromDob(m.dob)<18;}
+function waiverValid(m){
+  if(!m.waiverDate)return false;
+  var d=new Date(m.waiverDate);d.setFullYear(d.getFullYear()+1);return new Date()<d;
+}
+function waiverStatus(m){
+  if(!m.waiverDate)return{label:'No waiver',cls:'sp-none'};
+  if(waiverValid(m))return{label:'Waiver valid',cls:'sp-valid'};
+  return{label:'Waiver expired',cls:'sp-expired'};
+}
+function pips(n){
+  var max=8,h='';
+  for(var i=0;i<Math.min(n,max);i++)h+='<span class="pip"></span>';
+  if(n>max)h+='<span style="font-size:10px;color:var(--sub);margin-left:2px">+'+(n-max)+'</span>';
+  return h||'<span style="font-size:11px;color:var(--muted)">none</span>';
+}
+function memberTxSummary(mid,from,to){
+  var txs=state.txlog.filter(function(t){
+    if(t.memberId!==mid)return false;
+    var d=new Date(t.date);
+    if(from&&d<from)return false;
+    if(to&&d>to)return false;
+    return true;
+  });
+  var paid=0,freeAdj=0,used=0,checkins=0;
+  txs.forEach(function(t){
+    if(t.type==='payment')paid+=t.dollars||0;
+    else if(t.type==='adjustment')freeAdj+=t.credits||0;
+    else if(t.type==='checkin')used++;
+  });
+  checkins=txs.filter(t=>t.type==='checkin').length;
+  return{paid,freeAdj,used,checkins,txs};
+}
+
+// ══════════════════════════════════════════════════════════
+//  ET TIME
+// ══════════════════════════════════════════════════════════
+function nowET(){var s=new Date().toLocaleString('en-US',{timeZone:'America/New_York'});return new Date(s);}
+function isSessionDay(){return SESSION_DAYS.indexOf(nowET().getDay())>-1;}
+function toMins(h,m){return h*60+m;}
+function etMins(){var e=nowET();return toMins(e.getHours(),e.getMinutes());}
+function isSessionTime(){
+  if(!isSessionDay())return false;
+  var m=etMins(),s=toMins(SESSION_START.h,SESSION_START.m),e=toMins(SESSION_END.h,SESSION_END.m);
+  return m>=s&&m<e;
+}
+function isEarlyCheckin(){
+  if(!isSessionDay())return false;
+  var m=etMins(),s=toMins(SESSION_START.h,SESSION_START.m)-EARLY_CHECKIN,e=toMins(SESSION_END.h,SESSION_END.m);
+  return m>=s&&m<e;
+}
+function isCoachingOpen(){
+  if(!isSessionDay())return false;
+  var m=etMins(),o=toMins(COACHING_OPEN_H,0),c=toMins(COACHING_CLOSE.h,COACHING_CLOSE.m);
+  return m>=o&&m<c;
+}
+
+// ══════════════════════════════════════════════════════════
+//  SCHEDULE
+// ══════════════════════════════════════════════════════════
+function checkSchedule(){
+  if(!state.session.manualOverride){
+    var should=isSessionTime();
+    if(should&&!state.session.active){
+      state.session.active=true;save();
+    } else if(!should&&state.session.active){
+      state.session.active=false;
+      state.session.checkedIn=[];
+      Q_KEYS.forEach(k=>{state.session.queues[k].members=[];});
+      save();
+    }
+    // coaching auto-open/close
+    var cOpen=isCoachingOpen();
+    if(state.session.active&&!cOpen&&state.session.queues.coaching.open){
+      state.session.queues.coaching.open=false;
+      state.session.queues.coaching.members=[];save();
+    } else if(state.session.active&&cOpen&&!state.session.queues.coaching.open){
+      state.session.queues.coaching.open=true;save();
+    }
+  }
+  updateSessionButton();
+  if(kioskMode){kioskUpdateAttract();if(kioskMember)kioskRenderDashboard();}
+}
+
+function updateSessionButton(){
+  var badge=document.getElementById('session-badge');
+  if(state.session.active){badge.textContent='● SESSION ON';badge.className='session-badge on';}
+  else if(isEarlyCheckin()){badge.textContent='○ OPENS SOON';badge.className='session-badge soon';}
+  else{badge.textContent='● SESSION OFF';badge.className='session-badge off';}
+  document.getElementById('session-toggle-btn').style.display=isAdmin?'inline-flex':'none';
+  document.getElementById('admin-badge').style.display=isAdmin?'inline':'none';
+  document.getElementById('admin-toggle-btn').style.display=isAdmin?'none':'inline-flex';
+  document.getElementById('kiosk-mode-btn').style.display=isAdmin?'inline-flex':'none';
+  document.getElementById('member-toggle-btn').style.display=currentMember?'none':'inline-flex';
+  document.getElementById('member-badge').style.display=currentMember?'inline-flex':'none';
+  if(currentMember)document.getElementById('member-badge').textContent=currentMember.name.split(' ')[0]+' ✕';
+}
+
+// ══════════════════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════════════════
+function promptAdmin(){
+  document.getElementById('admin-pin-input').value='';
+  document.getElementById('admin-pin-msg').innerHTML='';
+  document.getElementById('admin-modal').style.display='flex';
+  setTimeout(()=>document.getElementById('admin-pin-input').focus(),100);
+}
+function closeAdminModal(){document.getElementById('admin-modal').style.display='none';}
+function submitAdminPin(){
+  if(document.getElementById('admin-pin-input').value===ADMIN_PIN){
+    isAdmin=true;closeAdminModal();updateSessionButton();
+    document.getElementById('nav-credits').style.display='';
+    document.getElementById('nav-reports').style.display='';
+    refreshCurrentTab();
+  } else {
+    document.getElementById('admin-pin-msg').innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Incorrect PIN.</div>';
+  }
+}
+function handleSessionToggle(){
+  if(!isAdmin)return;
+  state.session.active=!state.session.active;
+  state.session.manualOverride=true;
+  if(!state.session.active){state.session.checkedIn=[];Q_KEYS.forEach(k=>{state.session.queues[k].members=[];});}
+  updateSessionButton();save();refreshCurrentTab();
+}
+
+// ══════════════════════════════════════════════════════════
+//  MEMBER LOGIN
+// ══════════════════════════════════════════════════════════
+function promptMember(){
+  var sel=document.getElementById('member-login-select');
+  sel.innerHTML='<option value="">— Select —</option>';
+  state.members.forEach(function(m){var o=document.createElement('option');o.value=m.id;o.textContent=m.name;sel.appendChild(o);});
+  document.getElementById('member-login-msg').innerHTML='';
+  document.getElementById('member-modal').style.display='flex';
+}
+function closeMemberModal(){document.getElementById('member-modal').style.display='none';}
+function submitMemberLogin(){
+  var id=document.getElementById('member-login-select').value;
+  if(!id){document.getElementById('member-login-msg').innerHTML='<div class="msg err">Select your name.</div>';return;}
+  currentMember=state.members.find(m=>m.id===id);
+  closeMemberModal();updateSessionButton();
+  if(!isAdmin){document.getElementById('nav-credits').style.display='none';document.getElementById('nav-reports').style.display='none';}
+  showTab('myaccount',null);renderMyAccount();
+}
+function logoutMember(){currentMember=null;updateSessionButton();showTab('members',document.querySelector('.nav-btn'));}
+
+// ══════════════════════════════════════════════════════════
+//  NAV
+// ══════════════════════════════════════════════════════════
+function showTab(t,btn){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  var el=document.getElementById('tab-'+t);if(el)el.classList.add('active');
+  if(btn)btn.classList.add('active');
+  var m={'members':renderMembers,'checkin':renderCheckin,'queues':renderQueues,'credits':renderCredits,'myaccount':renderMyAccount,'reports':renderReports};
+  if(m[t])m[t]();
+  else if(t==='signup'){document.getElementById('signup-msg').innerHTML='';resetSignupForm();}
+}
+function refreshCurrentTab(){
+  updateSessionButton();
+  var a=document.querySelector('.tab-content.active');
+  if(a)showTab(a.id.replace('tab-',''),null);
+}
+
+// ══════════════════════════════════════════════════════════
+//  MEMBERS
+// ══════════════════════════════════════════════════════════
+function renderStats(){
+  var valid=state.members.filter(m=>waiverValid(m)).length;
+  var cin=state.session.checkedIn.length;
+  document.getElementById('stats-row').innerHTML=
+    '<div class="stat"><div class="stat-val">'+state.members.length+'</div><div class="stat-lbl">Members</div></div>'+
+    '<div class="stat"><div class="stat-val">'+valid+'</div><div class="stat-lbl">Valid waivers</div></div>'+
+    '<div class="stat"><div class="stat-val">'+cin+'</div><div class="stat-lbl">Checked in</div></div>';
+}
+function renderMembers(){
+  renderStats();
+  var list=document.getElementById('members-list');
+  if(!state.members.length){list.innerHTML='<div class="empty-state"><i class="ti ti-users"></i>No members yet.</div>';return;}
+  list.innerHTML=state.members.map(function(m){
+    var ws=waiverStatus(m),isIn=state.session.checkedIn.indexOf(m.id)>-1;
+    var exp=m.waiverDate?new Date(new Date(m.waiverDate).setFullYear(new Date(m.waiverDate).getFullYear()+1)).toLocaleDateString():'—';
+    var age=m.dob?ageFromDob(m.dob):null;
+    return '<div class="member-row">'+
+      '<div class="avatar">'+initials(m.name)+'</div>'+
+      '<div class="member-info">'+
+        '<div class="member-name">'+esc(m.name)+
+          (isIn?'<span class="checked-in-badge">IN</span>':'')+
+          (isMinor(m)?'<span class="minor-badge">MINOR</span>':'')+
+        '</div>'+
+        (m.email?'<div class="member-meta">'+esc(m.email)+(m.phone?' · '+esc(m.phone):'')+'</div>':'')+
+        (age!==null?'<div class="member-meta">Age: '+age+(m.guardian?' | Guardian: '+esc(m.guardian):'')+'</div>':'')+
+        '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+          '<span class="status-pill '+ws.cls+'">'+ws.label+'</span>'+
+          (ws.cls==='sp-valid'?'<span style="font-size:10px;color:var(--muted)">until '+exp+'</span>':'')+
+          '<span style="font-size:11px;color:var(--sub)">'+m.credits+' cr</span>'+
+          '<span class="credits-pips">'+pips(m.credits)+'</span>'+
+        '</div>'+
+      '</div></div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+//  SIGNUP
+// ══════════════════════════════════════════════════════════
+function resetSignupForm(){
+  ['su-name','su-dob','su-email','su-phone','su-guardian-name','su-guardian-phone','su-guardian-email','su-guardian-sig'].forEach(id=>{var e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('su-waiver').checked=false;
+  document.getElementById('minor-section').style.display='none';
+}
+function cancelSignup(){resetSignupForm();document.getElementById('signup-msg').innerHTML='';showTab('members',document.querySelector('.nav-btn'));}
+function checkMinor(){
+  var dob=document.getElementById('su-dob').value;
+  var age=dob?ageFromDob(dob):null;
+  document.getElementById('minor-section').style.display=(age!==null&&age<18)?'block':'none';
+}
+function signupMember(){
+  var name=document.getElementById('su-name').value.trim();
+  var dob=document.getElementById('su-dob').value;
+  var email=document.getElementById('su-email').value.trim();
+  var phone=document.getElementById('su-phone').value.trim();
+  var waiver=document.getElementById('su-waiver').checked;
+  var msg=document.getElementById('signup-msg');
+  if(!name){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Full name is required.</div>';return;}
+  if(!dob){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Date of birth is required.</div>';return;}
+  if(!waiver){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Must agree to the liability waiver.</div>';return;}
+  var age=ageFromDob(dob),guardian=null,guardianPhone=null,guardianEmail=null,guardianSig=null;
+  if(age<18){
+    guardian=document.getElementById('su-guardian-name').value.trim();
+    guardianPhone=document.getElementById('su-guardian-phone').value.trim();
+    guardianEmail=document.getElementById('su-guardian-email').value.trim();
+    guardianSig=document.getElementById('su-guardian-sig').value.trim();
+    if(!guardian){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Parent/guardian name required.</div>';return;}
+    if(!guardianPhone){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Parent/guardian phone required.</div>';return;}
+    if(!guardianSig){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Parent/guardian signature required.</div>';return;}
+  }
+  var id='m_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
+  state.members.push({id,name,dob,email,phone,credits:0,waiverDate:new Date().toISOString(),joinDate:new Date().toISOString(),guardian,guardianPhone,guardianEmail,guardianSig,lastCheckin:null,totalCheckins:0});
+  save();
+  msg.innerHTML='<div class="msg ok"><i class="ti ti-check"></i> '+esc(name)+' registered!</div>';
+  resetSignupForm();
+}
+
+// ══════════════════════════════════════════════════════════
+//  CHECK-IN
+// ══════════════════════════════════════════════════════════
+function populateSelect(selId,placeholder,filterFn){
+  var sel=document.getElementById(selId);if(!sel)return;
+  var prev=sel.value;
+  sel.innerHTML='<option value="">'+placeholder+'</option>';
+  state.members.filter(filterFn||(()=>true)).forEach(function(m){
+    var o=document.createElement('option');o.value=m.id;
+    o.textContent=m.name+' ('+m.credits+' cr)';
+    if(m.id===prev)o.selected=true;
+    sel.appendChild(o);
+  });
+}
+function renderCheckin(){
+  var warn=document.getElementById('session-warning'),btn=document.getElementById('ci-btn');
+  var canCI=isEarlyCheckin()||state.session.active;
+  if(!canCI){
+    warn.style.display='flex';warn.className='msg err';
+    document.getElementById('session-warning-text').textContent='No active session. Check-in opens 30 min before session.';
+    btn.disabled=true;
+  } else if(!state.session.active&&isEarlyCheckin()){
+    warn.style.display='flex';warn.className='msg info';
+    document.getElementById('session-warning-text').textContent='Session opens soon — early check-in is open.';
+    btn.disabled=false;
+  } else {warn.style.display='none';btn.disabled=false;}
+  populateSelect('ci-member','— Choose a member —');
+  document.getElementById('ci-preview').style.display='none';
+  document.getElementById('checkin-msg').innerHTML='';
+  renderCheckedInList();
+}
+function updateCheckinPreview(){
+  var id=document.getElementById('ci-member').value,prev=document.getElementById('ci-preview');
+  if(!id){prev.style.display='none';return;}
+  var m=state.members.find(x=>x.id===id);if(!m)return;
+  var ws=waiverStatus(m),isIn=state.session.checkedIn.indexOf(id)>-1;
+  prev.style.display='flex';
+  prev.innerHTML='<span class="status-pill '+ws.cls+'">'+ws.label+'</span>'+
+    '<span style="font-size:11px;color:var(--sub)">'+m.credits+' credit'+(m.credits!==1?'s':'')+'</span>'+
+    (isIn?'<span class="status-pill sp-info">Already checked in</span>':'');
+}
+function checkIn(){
+  var id=document.getElementById('ci-member').value,msg=document.getElementById('checkin-msg');
+  if(!id){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Select a member.</div>';return;}
+  var m=state.members.find(x=>x.id===id);
+  if(!waiverValid(m)){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Waiver expired or not signed.</div>';return;}
+  if(m.credits<1){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> No credits available.</div>';return;}
+  if(state.session.checkedIn.indexOf(id)>-1){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Already checked in.</div>';return;}
+  m.credits--;m.lastCheckin=new Date().toISOString();m.totalCheckins=(m.totalCheckins||0)+1;
+  state.session.checkedIn.push(id);
+  state.txlog.push({id:'tx_'+Date.now(),memberId:id,memberName:m.name,type:'checkin',credits:-1,date:new Date().toISOString(),note:'Session check-in'});
+  save();
+  msg.innerHTML='<div class="msg ok"><i class="ti ti-check"></i> '+esc(m.name)+' checked in! 1 credit used ('+m.credits+' remaining).</div>';
+  document.getElementById('ci-member').value='';document.getElementById('ci-preview').style.display='none';
+  renderCheckedInList();renderStats();
+}
+function renderCheckedInList(){
+  var list=document.getElementById('checked-in-list'),ids=state.session.checkedIn;
+  if(!ids.length){list.innerHTML='<div class="empty-state" style="padding:12px 0"><span style="color:var(--muted);font-size:12px">No one checked in yet</span></div>';return;}
+  list.innerHTML=ids.map(function(id){
+    var m=state.members.find(x=>x.id===id);if(!m)return'';
+    return '<div class="member-row" style="align-items:center">'+
+      '<div class="avatar">'+initials(m.name)+'</div>'+
+      '<div class="member-info"><div class="member-name">'+esc(m.name)+'</div>'+
+      '<div class="member-meta">'+m.credits+' cr remaining</div></div>'+
+      (isAdmin?'<button class="btn sm danger" onclick="checkOut(\''+id+'\')">Check out</button>':'')+
+    '</div>';
+  }).join('');
+}
+function checkOut(id){
+  state.session.checkedIn=state.session.checkedIn.filter(x=>x!==id);
+  Q_KEYS.forEach(k=>{state.session.queues[k].members=state.session.queues[k].members.filter(x=>x!==id);});
+  save();renderCheckedInList();renderStats();
+}
+
+// ══════════════════════════════════════════════════════════
+//  QUEUES (admin view)
+// ══════════════════════════════════════════════════════════
+function canJoinQueue(qkey,memberId){
+  var m=state.members.find(x=>x.id===memberId);
+  if(!m||!waiverValid(m))return{ok:false,reason:'Invalid or expired waiver.'};
+  var q=state.session.queues[qkey];
+  if(!q.open)return{ok:false,reason:'This queue is currently closed.'};
+  if(q.members.indexOf(memberId)>-1)return{ok:false,reason:'Already in this queue.'};
+  if(qkey==='coaching'){
+    if(m.credits<1)return{ok:false,reason:'No credits available.'};
+    if(!isCoachingOpen()&&!state.session.active)return{ok:false,reason:'Coaching queue opens at 9 AM on session days.'};
+    return{ok:true};
+  }
+  if(state.session.checkedIn.indexOf(memberId)===-1)return{ok:false,reason:'Must be checked in to join this queue.'};
+  var conflict=['open','challenge','advanced'].filter(k=>k!==qkey&&state.session.queues[k].members.indexOf(memberId)>-1);
+  if(conflict.length)return{ok:false,reason:'Already on '+Q_LABELS[Q_KEYS.indexOf(conflict[0])]+' queue.'};
+  return{ok:true};
+}
+function renderQueues(){
+  var sec=document.getElementById('queue-section-msg');sec.innerHTML='';
+  if(!state.session.active&&!isEarlyCheckin())
+    sec.innerHTML='<div class="msg warn" style="margin-bottom:8px"><i class="ti ti-alert-circle"></i> No active session.</div>';
+  populateSelect('q-member','— Choose a member —');
+  renderJoinBtns();renderQueuesDisplay();
+}
+function renderJoinBtns(){
+  var c=document.getElementById('queue-join-btns');
+  c.innerHTML=Q_KEYS.map(function(qkey,i){
+    var q=state.session.queues[qkey];
+    var adminCtrl=isAdmin&&(qkey==='coaching'||qkey==='challenge'||qkey==='advanced')?
+      '<button class="btn xs '+(q.open?'warn':'primary')+'" onclick="adminToggleQueue(\''+qkey+'\')" style="margin-left:4px">'+(q.open?'Close':'Open')+'</button>':'';
+    return '<div style="display:flex;align-items:center;gap:4px;margin-bottom:4px">'+
+      '<button class="btn join-btn" style="flex:1" onclick="joinQueue(\''+qkey+'\')" '+(!q.open?'disabled':'')+'>'+
+        '<i class="ti ti-table-column"></i> '+Q_LABELS[i]+
+        '<span>'+(q.open?q.members.length+' in queue':'Closed')+'</span>'+
+      '</button>'+adminCtrl+'</div>';
+  }).join('');
+}
+function adminToggleQueue(qkey){
+  if(!isAdmin)return;
+  var q=state.session.queues[qkey];q.open=!q.open;if(!q.open)q.members=[];
+  save();renderQueues();
+}
+function joinQueue(qkey){
+  var id=document.getElementById('q-member').value,msg=document.getElementById('queue-join-msg');
+  if(!id){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> Select a member.</div>';return;}
+  var chk=canJoinQueue(qkey,id);
+  if(!chk.ok){msg.innerHTML='<div class="msg err"><i class="ti ti-alert-circle"></i> '+esc(chk.reason)+'</div>';return;}
+  state.session.queues[qkey].members.push(id);save();
+  var m=state.members.find(x=>x.id===id);
+  msg.innerHTML='<div class="msg ok"><i class="ti ti-check"></i> '+esc(m.name)+' added to '+Q_LABELS[Q_KEYS.indexOf(qkey)]+'.</div>';
+  document.getElementById('q-member').value='';renderJoinBtns();renderQueuesDisplay();
+}
+function renderQueuesDisplay(){
+  var disp=document.getElementById('queues-display');
+  disp.innerHTML=Q_KEYS.map(function(qkey,i){
+    var q=state.session.queues[qkey];
+    var entries=q.members.length?q.members.map(function(id,pos){
+      var m=state.members.find(x=>x.id===id);if(!m)return'';
+      return '<div class="queue-entry">'+
+        '<div style="display:flex;align-items:center;gap:6px"><div class="queue-pos">'+(pos+1)+'</div><span>'+esc(m.name)+'</span></div>'+
+        '<button class="btn xs" onclick="removeFromQueue(\''+qkey+'\',\''+id+'\')" aria-label="Remove"><i class="ti ti-x"></i></button></div>';
+    }).join(''):'<div style="font-size:11px;color:var(--muted);padding:4px 0;text-align:center">'+(q.open?'Empty':'Closed')+'</div>';
+    return '<div class="queue-card'+(q.open?'':' closed')+'">'+
+      '<div class="queue-head"><span class="queue-name">'+Q_LABELS[i]+'</span><span class="queue-meta">'+(q.open?q.members.length+' waiting':'Closed')+'</span></div>'+
+      entries+'</div>';
+  }).join('');
+}
+function removeFromQueue(qkey,id){
+  state.session.queues[qkey].members=state.session.queues[qkey].members.filter(x=>x!==id);
+  save();renderJoinBtns();renderQueuesDisplay();
+}
+
+// ══════════════════════════════════════════════════════════
+//  CREDITS
+// ══════════════════════════════════════════════════════════
+function renderCredits(){
+  var gate=document.getElementById('credits-gate'),content=document.getElementById('credits-content');
+  if(!isAdmin){gate.style.display='block';content.style.display='none';return;}
+  gate.style.display='none';content.style.display='block';
+  populateSelect('cr-member','— Choose —');populateSelect('adj-member','— Choose —');renderTxList();
+}
+function updateCreditPreview(){var id=document.getElementById('cr-member').value,el=document.getElementById('cr-preview');if(!id){el.textContent='';return;}var m=state.members.find(x=>x.id===id);el.textContent=m?'Balance: '+m.credits+' cr':'';}
+function updateAdjPreview(){var id=document.getElementById('adj-member').value,el=document.getElementById('adj-preview');if(!id){el.textContent='';return;}var m=state.members.find(x=>x.id===id);el.textContent=m?'Balance: '+m.credits+' cr':'';}
+function calcCredits(){var a=parseFloat(document.getElementById('cr-amount').value)||0,c=Math.floor(a/6);document.getElementById('cr-calc').value=c+' credit'+(c!==1?'s':'');}
+function addPaymentCredits(){
+  var id=document.getElementById('cr-member').value,amt=parseFloat(document.getElementById('cr-amount').value)||0;
+  var method=document.getElementById('cr-method').value,comment=document.getElementById('cr-comment').value.trim();
+  var msg=document.getElementById('credits-pay-msg');
+  if(!id){msg.innerHTML='<div class="msg err">Select a member.</div>';return;}
+  if(amt<6){msg.innerHTML='<div class="msg err">Minimum $6.</div>';return;}
+  var credits=Math.floor(amt/6),m=state.members.find(x=>x.id===id);
+  m.credits+=credits;
+  state.txlog.push({id:'tx_'+Date.now(),memberId:id,memberName:m.name,type:'payment',credits,dollars:amt,method,comment,date:new Date().toISOString()});
+  save();
+  msg.innerHTML='<div class="msg ok"><i class="ti ti-check"></i> +'+credits+' credits → '+esc(m.name)+'. Balance: '+m.credits+'.</div>';
+  ['cr-amount','cr-comment'].forEach(i=>{document.getElementById(i).value='';});
+  document.getElementById('cr-calc').value='';document.getElementById('cr-member').value='';document.getElementById('cr-preview').textContent='';
+  renderTxList();
+}
+function addAdjustmentCredits(){
+  var id=document.getElementById('adj-member').value,amt=parseInt(document.getElementById('adj-amount').value)||0;
+  var reason=document.getElementById('adj-reason').value,comment=document.getElementById('adj-comment').value.trim();
+  var msg=document.getElementById('credits-adj-msg');
+  if(!id){msg.innerHTML='<div class="msg err">Select a member.</div>';return;}
+  if(!amt){msg.innerHTML='<div class="msg err">Enter a non-zero amount.</div>';return;}
+  var m=state.members.find(x=>x.id===id);m.credits=Math.max(0,m.credits+amt);
+  state.txlog.push({id:'tx_'+Date.now(),memberId:id,memberName:m.name,type:'adjustment',credits:amt,reason,comment,date:new Date().toISOString()});
+  save();
+  msg.innerHTML='<div class="msg ok"><i class="ti ti-check"></i> '+(amt>0?'+':'')+amt+' credits → '+esc(m.name)+'. Balance: '+m.credits+'.</div>';
+  ['adj-amount','adj-comment'].forEach(i=>{document.getElementById(i).value='';});
+  document.getElementById('adj-member').value='';document.getElementById('adj-preview').textContent='';
+  renderTxList();
+}
+function renderTxList(){
+  var el=document.getElementById('tx-list'),recent=state.txlog.slice().reverse().slice(0,30);
+  if(!recent.length){el.innerHTML='<div class="empty-state" style="padding:12px">No transactions yet.</div>';return;}
+  el.innerHTML=recent.map(function(t){
+    var cr=t.type==='checkin'?'<span class="tx-debit">−1 cr</span>':t.type==='payment'?'<span class="tx-credit">+'+t.credits+' cr</span>':(t.credits>0?'<span class="tx-credit">+'+t.credits+' cr</span>':'<span class="tx-debit">'+t.credits+' cr</span>');
+    var detail=t.type==='payment'?fmtMoney(t.dollars)+' via '+esc(t.method):t.type==='adjustment'?esc(t.reason):'Check-in';
+    return '<div class="tx-row"><div><div style="font-weight:500">'+esc(t.memberName)+'</div>'+
+      '<div style="color:var(--sub);font-size:11px">'+detail+(t.comment?' — '+esc(t.comment):'')+'</div>'+
+      '<div style="color:var(--muted);font-size:10px">'+fmtDT(t.date)+'</div></div><div>'+cr+'</div></div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+//  MY ACCOUNT
+// ══════════════════════════════════════════════════════════
+function renderMyAccount(){
+  var el=document.getElementById('my-account-content');
+  if(!currentMember){el.innerHTML='<div class="empty-state"><i class="ti ti-user-circle"></i>Sign in to view your account.</div>';return;}
+  var m=currentMember,ws=waiverStatus(m);
+  var exp=m.waiverDate?new Date(new Date(m.waiverDate).setFullYear(new Date(m.waiverDate).getFullYear()+1)).toLocaleDateString():'—';
+  var sum=memberTxSummary(m.id);
+  var txs=state.txlog.filter(t=>t.memberId===m.id).slice().reverse();
+  el.innerHTML=
+    '<div class="card"><div class="card-title">My account — '+esc(m.name)+'</div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">'+
+      '<span class="status-pill '+ws.cls+'">'+ws.label+'</span>'+
+      (ws.cls==='sp-valid'?'<span style="font-size:11px;color:var(--muted)">until '+exp+'</span>':'')+
+    '</div>'+
+    '<div class="stat-row" style="margin-bottom:0">'+
+      '<div class="stat"><div class="stat-val">'+m.credits+'</div><div class="stat-lbl">Credits</div></div>'+
+      '<div class="stat"><div class="stat-val">'+(m.totalCheckins||0)+'</div><div class="stat-lbl">Check-ins</div></div>'+
+      '<div class="stat"><div class="stat-val">'+fmtMoney(sum.paid)+'</div><div class="stat-lbl">Paid total</div></div>'+
+    '</div></div>'+
+    '<div class="card"><div class="card-title">Transaction history</div>'+
+    (txs.length?txs.map(function(t){
+      var cr=t.type==='checkin'?'<span class="tx-debit">−1 cr</span>':t.type==='payment'?'<span class="tx-credit">+'+t.credits+' cr</span>':(t.credits>0?'<span class="tx-credit">+'+t.credits+' cr</span>':'<span class="tx-debit">'+t.credits+' cr</span>');
+      var detail=t.type==='payment'?fmtMoney(t.dollars)+' via '+esc(t.method):t.type==='adjustment'?'Adj: '+esc(t.reason):'Session check-in';
+      return '<div class="tx-row"><div><div style="font-weight:500">'+detail+'</div>'+
+        '<div style="color:var(--muted);font-size:10px">'+fmtDT(t.date)+'</div></div><div>'+cr+'</div></div>';
+    }).join(''):'<div class="empty-state" style="padding:12px">No transactions yet.</div>')+
+    '</div>';
+}
+
+// ══════════════════════════════════════════════════════════
+//  REPORTS
+// ══════════════════════════════════════════════════════════
+function renderReports(){
+  var gate=document.getElementById('reports-gate'),content=document.getElementById('reports-content');
+  if(!isAdmin){gate.style.display='block';content.style.display='none';return;}
+  gate.style.display='none';content.style.display='block';
+  var now=new Date(),mon=new Date(now);
+  mon.setDate(now.getDate()-now.getDay()+1);mon.setHours(0,0,0,0);
+  document.getElementById('rpt-from').value=mon.toISOString().slice(0,10);
+  document.getElementById('rpt-to').value=now.toISOString().slice(0,10);
+  document.getElementById('report-output').innerHTML='';
+  renderSavedReports();
+}
+function renderSavedReports(){
+  var el=document.getElementById('saved-reports-list');
+  if(!state.reports.length){el.innerHTML='<div style="font-size:12px;color:var(--muted)">No saved reports yet.</div>';return;}
+  el.innerHTML=state.reports.slice().reverse().map(function(r){
+    return '<div class="tx-row" style="cursor:pointer" onclick="showSavedReport(\''+r.id+'\')">'+
+      '<div><div style="font-weight:500">'+esc(r.title)+'</div>'+
+      '<div style="font-size:10px;color:var(--muted)">'+fmtDT(r.date)+'</div></div>'+
+      '<span class="status-pill sp-info">View</span></div>';
+  }).join('');
+}
+function showSavedReport(id){var r=state.reports.find(x=>x.id===id);if(r)document.getElementById('report-output').innerHTML='<div class="card">'+r.html+'</div>';}
+function generateReport(type){
+  var from=new Date(document.getElementById('rpt-from').value);from.setHours(0,0,0,0);
+  var to=new Date(document.getElementById('rpt-to').value);to.setHours(23,59,59,999);
+  if(isNaN(from)||isNaN(to)){alert('Select valid dates.');return;}
+  var html='',title='';
+  if(type==='credits'){
+    title='Credit Transactions '+fmt(from.toISOString())+' – '+fmt(to.toISOString());
+    var txs=state.txlog.filter(function(t){var d=new Date(t.date);return d>=from&&d<=to;});
+    html='<div class="card-title">'+esc(title)+'</div><div class="table-wrap"><table>'+
+      '<tr><th>Date</th><th>Member</th><th>Type</th><th>Credits</th><th>$</th><th>Method</th><th>Reason</th><th>Comment</th></tr>'+
+      (txs.length?txs.map(function(t){return '<tr><td>'+fmtDT(t.date)+'</td><td>'+esc(t.memberName)+'</td><td>'+esc(t.type)+'</td>'+
+        '<td>'+(t.credits>0?'+':'')+t.credits+'</td><td>'+(t.dollars?fmtMoney(t.dollars):'—')+'</td>'+
+        '<td>'+esc(t.method||'—')+'</td><td>'+esc(t.reason||'—')+'</td><td>'+esc(t.comment||'—')+'</td></tr>';}).join(''):
+        '<tr><td colspan="8" style="text-align:center;color:var(--muted)">No transactions in range.</td></tr>')+
+      '</table></div>';
+  } else {
+    title='Membership Detail '+fmt(from.toISOString())+' – '+fmt(to.toISOString());
+    html='<div class="card-title">'+esc(title)+'</div><div class="table-wrap"><table>'+
+      '<tr><th>Name</th><th>Email</th><th>Phone</th><th>Waiver</th><th>Minor</th><th>$ Paid</th><th>Cr Used</th><th>Free/Adj</th><th>Balance</th><th>Check-ins</th><th>Last Check-in</th></tr>'+
+      state.members.map(function(m){
+        var ws=waiverStatus(m),s=memberTxSummary(m.id,from,to);
+        return '<tr><td>'+esc(m.name)+'</td><td>'+esc(m.email||'—')+'</td><td>'+esc(m.phone||'—')+'</td>'+
+          '<td>'+ws.label+'</td><td>'+(isMinor(m)?'Yes':'No')+'</td>'+
+          '<td>'+fmtMoney(s.paid)+'</td><td>'+Math.abs(s.used)+'</td><td>'+s.freeAdj+'</td>'+
+          '<td>'+m.credits+'</td><td>'+s.checkins+'</td><td>'+fmt(m.lastCheckin)+'</td></tr>';
+      }).join('')+'</table></div>';
+  }
+  var rid='rpt_'+Date.now();
+  state.reports.push({id:rid,title,type,date:new Date().toISOString(),html});
+  if(state.reports.length>50)state.reports=state.reports.slice(-50);
+  save();
+  document.getElementById('report-output').innerHTML='<div class="card">'+html+'</div>';
+  renderSavedReports();
+}
+function checkAutoReports(){
+  var et=nowET(),h=et.getHours(),mi=et.getMinutes(),dow=et.getDay(),dom=et.getDate();
+  var wk='arw_'+et.getFullYear()+'W'+Math.ceil(et.getDate()/7);
+  var mo='arm_'+et.getFullYear()+'M'+et.getMonth();
+  if(h===8&&mi<10){
+    if(dow===1&&!localStorage.getItem(wk)){
+      var t1=new Date(et);t1.setHours(0,0,0,0);var f1=new Date(t1);f1.setDate(f1.getDate()-7);
+      autoSaveReport('credits',f1,t1,'Weekly Credit Transactions');localStorage.setItem(wk,'1');
+    }
+    if(dom===1&&!localStorage.getItem(mo)){
+      var t2=new Date(et);t2.setHours(0,0,0,0);var f2=new Date(t2);f2.setMonth(f2.getMonth()-1);
+      autoSaveReport('credits',f2,t2,'Monthly Credit Transactions');localStorage.setItem(mo,'1');
+    }
+  }
+}
+function autoSaveReport(type,from,to,label){
+  var title=label+' '+fmt(from.toISOString())+' – '+fmt(to.toISOString());
+  var txs=state.txlog.filter(function(t){var d=new Date(t.date);return d>=from&&d<=to;});
+  var html='<div class="card-title">'+esc(title)+' (Auto)</div><div class="table-wrap"><table>'+
+    '<tr><th>Date</th><th>Member</th><th>Type</th><th>Credits</th><th>$</th><th>Method</th><th>Reason</th><th>Comment</th></tr>'+
+    (txs.length?txs.map(function(t){return '<tr><td>'+fmtDT(t.date)+'</td><td>'+esc(t.memberName)+'</td><td>'+esc(t.type)+'</td>'+
+      '<td>'+(t.credits>0?'+':'')+t.credits+'</td><td>'+(t.dollars?fmtMoney(t.dollars):'—')+'</td>'+
+      '<td>'+esc(t.method||'—')+'</td><td>'+esc(t.reason||'—')+'</td><td>'+esc(t.comment||'—')+'</td></tr>';}).join(''):
+      '<tr><td colspan="8" style="text-align:center;color:var(--muted)">No transactions.</td></tr>')+
+    '</table></div>';
+  state.reports.push({id:'rpt_auto_'+Date.now(),title,type,date:new Date().toISOString(),html,auto:true});
+  if(state.reports.length>50)state.reports=state.reports.slice(-50);
+  save();
+}
+
+// ══════════════════════════════════════════════════════════
+//  KIOSK MODE
+// ══════════════════════════════════════════════════════════
+function enterKioskMode(){
+  kioskMode=true;
+  document.getElementById('kiosk-overlay').classList.add('active');
+  kioskShowAttract();
+  kioskClockTimer=setInterval(kioskUpdateClock,1000);
+  kioskRefreshTimer=setInterval(function(){checkSchedule();if(kioskMember)kioskRenderDashboard();else kioskUpdateAttract();},10000);
+}
+
+function kioskShowAttract(){
+  kioskMember=null;
+  clearKioskIdle();
+  document.getElementById('kiosk-attract').style.display='flex';
+  document.getElementById('kiosk-picker').classList.remove('visible');
+  document.getElementById('kiosk-dashboard').classList.remove('visible');
+  kioskUpdateAttract();
+}
+
+function kioskUpdateAttract(){
+  var sEl=document.getElementById('kiosk-session-status');
+  if(state.session.active)sEl.innerHTML='<span style="color:#C6F135;font-weight:600">● Session is LIVE</span>';
+  else if(isEarlyCheckin())sEl.innerHTML='<span style="color:#f59e0b">○ Session opens soon</span>';
+  else sEl.innerHTML='<span style="color:rgba(255,255,255,0.4)">● No active session</span>';
+
+  // Compact live queue preview on attract screen
+  var aqEl=document.getElementById('kiosk-attract-queues');
+  if(!state.session.active){aqEl.innerHTML='';return;}
+  aqEl.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;width:100%">'+
+    Q_KEYS.map(function(qkey,i){
+      var q=state.session.queues[qkey];
+      return '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px">'+
+        '<div style="color:#fff;font-size:11px;font-weight:700">'+Q_LABELS[i]+'</div>'+
+        '<div style="color:rgba(255,255,255,0.45);font-size:10px">'+(q.open?q.members.length+' waiting':'Closed')+'</div>'+
+      '</div>';
+    }).join('')+'</div>';
+}
+
+function kioskActivate(){
+  document.getElementById('kiosk-attract').style.display='none';
+  document.getElementById('kiosk-picker').classList.add('visible');
+  document.getElementById('kiosk-dashboard').classList.remove('visible');
+  kioskBuildMemberGrid();
+  resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar',kioskShowAttract);
+}
+
+function kioskBuildMemberGrid(){
+  var grid=document.getElementById('kiosk-member-grid');
+  if(!state.members.length){grid.innerHTML='<div style="color:rgba(255,255,255,0.4);font-size:13px;text-align:center;padding:20px">No members registered yet.</div>';return;}
+  grid.innerHTML=state.members.map(function(m){
+    return '<div class="kiosk-member-tile" onclick="kioskSelectMember(\''+m.id+'\')">'+
+      '<div class="k-avatar">'+initials(m.name)+'</div>'+
+      '<div class="k-name">'+esc(m.name)+'</div>'+
+      '<div class="k-credits">'+m.credits+' credit'+(m.credits!==1?'s':'')+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function kioskSelectMember(id){
+  kioskMember=state.members.find(x=>x.id===id);if(!kioskMember)return;
+  resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar',kioskShowAttract);
+  document.getElementById('kiosk-picker').classList.remove('visible');
+  document.getElementById('kiosk-dashboard').classList.add('visible');
+  kioskRenderDashboard();
+  resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar2',kioskShowAttract);
+}
+
+function kioskBack(){
+  clearKioskIdle();
+  if(document.getElementById('kiosk-dashboard').classList.contains('visible')){
+    kioskMember=null;
+    document.getElementById('kiosk-dashboard').classList.remove('visible');
+    document.getElementById('kiosk-picker').classList.add('visible');
+    kioskBuildMemberGrid();
+    resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar',kioskShowAttract);
+  } else {
+    kioskShowAttract();
+  }
+}
+
+function kioskRenderDashboard(){
+  var m=kioskMember;
+  if(!m)return;
+  // refresh member from state in case credits changed
+  var fresh=state.members.find(x=>x.id===m.id);
+  if(fresh)kioskMember=m=fresh;
+
+  document.getElementById('kd-title').textContent='Queue Manager';
+  document.getElementById('kd-avatar').textContent=initials(m.name);
+  document.getElementById('kd-name').textContent=m.name;
+
+  var ws=waiverStatus(m);
+  var isIn=state.session.checkedIn.indexOf(m.id)>-1;
+  document.getElementById('kd-detail').textContent=m.credits+' credit'+(m.credits!==1?'s':'')+' · '+(isIn?'Checked in':'Not checked in');
+  document.getElementById('kd-status').innerHTML=
+    '<span class="status-pill '+ws.cls+'">'+ws.label+'</span>'+
+    (isIn?'<span class="status-pill sp-info" style="margin-left:4px">IN</span>':'');
+
+  var noSes=document.getElementById('kiosk-no-session');
+  var qArea=document.getElementById('kiosk-queue-area');
+  if(!state.session.active&&!isEarlyCheckin()){noSes.style.display='flex';qArea.style.display='none';return;}
+  noSes.style.display='none';qArea.style.display='block';
+
+  document.getElementById('kiosk-global-msg').innerHTML='';
+  var grid=document.getElementById('kiosk-queue-grid');
+  grid.innerHTML=Q_KEYS.map(function(qkey,i){
+    var q=state.session.queues[qkey];
+    var mePos=q.members.indexOf(m.id);
+    var meIn=mePos>-1;
+    var chk=canJoinQueue(qkey,m.id);
+    var cardCls='kiosk-q-card'+(q.open?'':' closed')+(meIn?' me-in':'');
+
+    var badge=q.open?(meIn?'<span class="kq-badge kq-me">You: #'+(mePos+1)+'</span>':'<span class="kq-badge kq-open">Open</span>'):'<span class="kq-badge kq-closed">Closed</span>';
+
+    var listHtml=q.open&&q.members.length?
+      q.members.slice(0,6).map(function(id,pos){
+        var nm=state.members.find(x=>x.id===id);if(!nm)return'';
+        var isMe=id===m.id;
+        return '<div class="kiosk-q-row'+(isMe?' me':'')+'">'+
+          '<span class="kiosk-q-num'+(isMe?' me':'')+'">'+(pos+1)+'</span>'+
+          '<span>'+(isMe?'★ You':esc(nm.name.split(' ')[0]))+'</span>'+
+        '</div>';
+      }).join('')+(q.members.length>6?'<div class="kiosk-q-row" style="color:rgba(255,255,255,0.3)">+'+(q.members.length-6)+' more…</div>':''):
+      '<div class="kiosk-q-empty">'+(q.open?'Nobody yet':'Closed')+'</div>';
+
+    var actionHtml='';
+    if(q.open){
+      if(meIn){
+        actionHtml='<div class="kiosk-q-actions"><button class="k-btn leave" onclick="kioskLeaveQueue(\''+qkey+'\')"><i class="ti ti-logout"></i> Leave queue</button></div>';
+      } else if(chk.ok){
+        actionHtml='<div class="kiosk-q-actions"><button class="k-btn join" onclick="kioskJoinQueue(\''+qkey+'\')"><i class="ti ti-login"></i> Join queue</button></div>';
+      } else {
+        actionHtml='<div class="kiosk-q-actions"><button class="k-btn disabled" disabled title="'+esc(chk.reason)+'"><i class="ti ti-ban"></i> '+esc(chk.reason)+'</button></div>';
+      }
+    }
+
+    return '<div class="'+cardCls+'">'+
+      '<div class="kiosk-q-head"><span class="kiosk-q-name">'+Q_LABELS[i]+'</span>'+badge+'</div>'+
+      '<div class="kiosk-q-list">'+listHtml+'</div>'+
+      actionHtml+'</div>';
+  }).join('');
+}
+
+function kioskJoinQueue(qkey){
+  var m=kioskMember;if(!m)return;
+  var chk=canJoinQueue(qkey,m.id);
+  if(!chk.ok){
+    document.getElementById('kiosk-global-msg').innerHTML='<div class="kiosk-msg err"><i class="ti ti-alert-circle"></i> '+esc(chk.reason)+'</div>';
+    resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar2',kioskShowAttract);
+    return;
+  }
+  state.session.queues[qkey].members.push(m.id);
+  save();kioskRenderDashboard();
+  document.getElementById('kiosk-global-msg').innerHTML='<div class="kiosk-msg ok"><i class="ti ti-check"></i> Joined '+Q_LABELS[Q_KEYS.indexOf(qkey)]+' queue!</div>';
+  resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar2',kioskShowAttract);
+}
+
+function kioskLeaveQueue(qkey){
+  var m=kioskMember;if(!m)return;
+  state.session.queues[qkey].members=state.session.queues[qkey].members.filter(x=>x!==m.id);
+  save();kioskRenderDashboard();
+  document.getElementById('kiosk-global-msg').innerHTML='<div class="kiosk-msg ok"><i class="ti ti-check"></i> Left '+Q_LABELS[Q_KEYS.indexOf(qkey)]+' queue.</div>';
+  resetKioskIdle(KIOSK_IDLE_SECS,'kiosk-idle-bar2',kioskShowAttract);
+}
+
+// Kiosk exit
+function promptKioskExit(){
+  document.getElementById('kiosk-exit-pin').value='';
+  document.getElementById('kiosk-exit-msg').innerHTML='';
+  document.getElementById('kiosk-exit-modal').style.display='flex';
+  setTimeout(()=>document.getElementById('kiosk-exit-pin').focus(),100);
+}
+function closeKioskExitModal(){document.getElementById('kiosk-exit-modal').style.display='none';}
+function submitKioskExit(){
+  if(document.getElementById('kiosk-exit-pin').value===ADMIN_PIN){
+    closeKioskExitModal();exitKioskMode();
+  } else {
+    document.getElementById('kiosk-exit-msg').innerHTML='<div class="msg err">Incorrect PIN.</div>';
+  }
+}
+function exitKioskMode(){
+  kioskMode=false;kioskMember=null;
+  clearKioskIdle();
+  clearInterval(kioskRefreshTimer);clearInterval(kioskClockTimer);
+  document.getElementById('kiosk-overlay').classList.remove('active');
+}
+
+// Idle timer
+function resetKioskIdle(secs,barId,cb){
+  clearKioskIdle();
+  kioskIdleRemaining=secs;
+  var bar=document.getElementById(barId);
+  if(bar){bar.style.transition='none';bar.style.width='100%';void bar.offsetWidth;bar.style.transition='width '+secs+'s linear';bar.style.width='0%';}
+  kioskIdleTimer=setInterval(function(){
+    kioskIdleRemaining--;
+    if(kioskIdleRemaining<=0){clearKioskIdle();cb();}
+  },1000);
+}
+function clearKioskIdle(){clearInterval(kioskIdleTimer);kioskIdleTimer=null;}
+
+function kioskUpdateClock(){
+  var t=nowET().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
+  ['kiosk-clock','kiosk-clock2'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='HeightsTT Club · '+t+' ET';});
+}
+
+// ══════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════
+async function init(){
+  if(typeof window.storage==='undefined'){
+    window.storage={
+      get:function(k){var v=localStorage.getItem(k);return v?Promise.resolve({value:v}):Promise.reject(new Error('missing'));},
+      set:function(k,v){localStorage.setItem(k,v);return Promise.resolve({value:v});}
+    };
+    document.getElementById('sync-label').textContent='Local only';
+  }
+  var ok=await loadFromCloud();
+  document.getElementById('loading-overlay').style.display='none';
+  document.getElementById('app').style.display='block';
+  setSyncStatus(ok?'ok':'err',ok?'Synced':'Load error');
+  checkSchedule();
+  renderMembers();
+  checkAutoReports();
+  setInterval(function(){checkSchedule();checkAutoReports();},60000);
+  pollTimer=setTimeout(pollChanges,10000);
+}
+
+init();
+</script>
+</body>
+</html>
